@@ -10,7 +10,7 @@ public abstract class BasicPage {
 
     public BasicPage(WebDriver webDriver) {
         this.webDriver = webDriver;
-        this.wait = new WebDriverWait(webDriver,10);
+        this.wait = new WebDriverWait(webDriver, 10);
         PageFactory.initElements(webDriver, this);
     }
 }

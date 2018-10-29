@@ -6,11 +6,12 @@ import org.testng.Assert;
 import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
+import ru.hazker.page.GmailPage;
 import ru.hazker.page.LoginPage;
 import ru.hazker.page.MainPage;
 
 
-
+import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
 public class RunAutoTest {
@@ -33,14 +34,55 @@ public class RunAutoTest {
     }
 
     @Test
-    public void login(){
+    public void openGmail(){
         webDriver.get("https://www.google.com/intl/ru/gmail/about/");
         MainPage main = new MainPage(webDriver);
         main.clickLoginButton();
 
+
         LoginPage loginPage = new LoginPage(webDriver);
         Assert.assertTrue(loginPage.emailFieldIsVisible(), "Поле логина не обноружино");
-        loginPage.fillEmail("sadadadada");
+
+
+    }
+
+    @Test(dependsOnMethods = {"openGmail"})
+    public void login(){
+        LoginPage loginPage = new LoginPage(webDriver);
+        loginPage.fillEmail("pushin98@gmail.com");
+        loginPage.clickNextButton();
+
+    }
+
+    @Test(dependsOnMethods = {"login"})
+    public void password(){
+        LoginPage password = new LoginPage(webDriver);
+        password.fillPassword("258046Yap");
+
+        password.clickNextButton1();
+    }
+
+    @Test(dependsOnMethods = {"password"})
+    public void openWriteButton(){
+        GmailPage write = new GmailPage(webDriver);
+        write.clickWriteButton();
+        write.fillDestination("pushin98@mail.ru");
+        write.fillTheme("Auto Testing");
+        write.fillLetterBody("Check Auto Testing \n");
+    }
+
+    @Test(dependsOnMethods = {"openWriteButton"})
+    public void toDraft(){
+        GmailPage draft = new GmailPage(webDriver);
+        draft.clickObn();
+        draft.draftButton("in:draft");
+        draft.clickSearchButton();
+        draft.clickFindMesageButton();
+        draft.findMesage();
+        draft.clickSendLetterButton();
+
+
+
     }
 
 
