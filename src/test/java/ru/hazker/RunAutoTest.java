@@ -49,7 +49,7 @@ public class RunAutoTest {
     @Test(dependsOnMethods = {"openGmail"})
     public void login(){
         LoginPage loginPage = new LoginPage(webDriver);
-        loginPage.fillEmail("pushin98@gmail.com");
+        loginPage.fillEmail("123321qweewq123321");
         loginPage.clickNextButton();
 
     }
@@ -57,7 +57,7 @@ public class RunAutoTest {
     @Test(dependsOnMethods = {"login"})
     public void password(){
         LoginPage password = new LoginPage(webDriver);
-        password.fillPassword("258046Yap");
+        password.fillPassword("123321qweewq123321");
 
         password.clickNextButton1();
     }
@@ -79,7 +79,7 @@ public class RunAutoTest {
         draft.clickSearchButton();
         draft.clickFindMesageButton();
         draft.findMesage();
-        draft.clickSendLetterButton();
+
 
 
 
