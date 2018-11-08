@@ -35,23 +35,18 @@ public class GmailPage extends BasicPage{
     @FindBy(xpath = "//img[@class='Ha']")
     private WebElement obn;
 
-    @FindBy(xpath = "//input[@class='gb_cf']")
+    @FindBy(xpath = "//input[@class='gb_df']")
     private WebElement draftField;
 
-    @FindBy(css = ".gb_ef.gb_of")
+    @FindBy(xpath = "//button[@class='gb_ff gb_pf']")
     private WebElement searchButton;
 
-    @FindBy(xpath = "//div[@class='Cp']//table[@class='F cf zt']//tr")
+    @FindBy(xpath = "//table[@id=':qm']//tr")
     public List<WebElement> tabliza;
 
-    @FindBy(xpath = "//div[@class='ae4 UI']//div[@class='Cp']//table[@class='F cf zt']")
-    public WebElement tabliza1;
 
 
 
-
-
-    UUID uuid = UUID.randomUUID();
 
 
     public void clickWriteButton(){
@@ -81,10 +76,7 @@ public class GmailPage extends BasicPage{
         if(!letterBodyField.isDisplayed())
             wait.until(ExpectedConditions.visibilityOf(letterBodyField));
 
-
         letterBodyField.sendKeys(body);
-        letterBodyField.sendKeys(uuid.toString());
-
     }
 
     public void clickSendLetterButton(){
@@ -116,21 +108,18 @@ public class GmailPage extends BasicPage{
         searchButton.click();
 
     }
-    public void clickFindMesageButton(){
-        if (!tabliza1.isDisplayed())
-            wait.until(ExpectedConditions.elementToBeClickable(tabliza1));
 
-        tabliza1.click();
-
-    }
-
-
-    public void findMesage(){
+    public void findAndSendMessage(String theme, String text){
         for(WebElement element:tabliza){
-            this.clickSendLetterButton();
-            break;
-
+            String messageTheme = element.findElement(By.xpath("//span[text()[contains(.,'"+theme+"')]]")).getAttribute("innerText");
+            String messageText = element.findElement(By.xpath("//span[text()[contains(.,'"+text+"')]]")).getAttribute("innerText");
+            if(messageTheme.equals(theme)&&messageText.contains(text)){
+                element.click();
+                break;
+            }
         }
+        wait.until(ExpectedConditions.visibilityOf(sendLetterButton));
+        sendLetterButton.click();
     }
 
 }
